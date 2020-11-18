@@ -1,12 +1,39 @@
 # LMP GUI
 
-**LMP GUI** is Python application for **Assetto Corsa** displaying all essential information for LMP drivers in one place (it works with other cars as well). My inspiration was HUD I have seen on Youtube videos of iRacing 24 Hours of Le Mans. To be honest I don't know if is it mod or default HUD, because I have never played iRacing. Not all features coincide, and both applications significantly differ, but layout is similar. As far as I know it does not work for Assetto Corsa Competezione, but I have not tried it.
+**LMP GUI** is Python application for **Assetto Corsa** displaying all essential information for LMP drivers in one place (it works with other cars as well). My inspiration was HUD I have seen on Youtube videos of iRacing 24 Hours of Le Mans. To be honest I don't know if is it mod or default HUD, because I have never played iRacing. Not all features coincide, and both applications significantly differ, but layout is similar. As far as I know it does not work for **Assetto Corsa Competezione**, but I have not tried it.
 
 ![Screenshot](https://github.com/dchoptiany/lmpgui/blob/main/screenshot.jpg "Screenshot")
 
+## Installation
+
+To install **LMP GUI** properly:
+1. Download latest version from link below.
+2. Go to **Steam\steamapps\common\assettocorsa\content\fonts**.
+3. Copy here whole content of **LMP GUI\content\fonts**.
+4. Go to **Steam\steamapps\common\assettocorsa\apps\python**.
+5. If there already is **LmpGUI** folder - delete it.
+6. Copy here whole content of **LMP GUI\apps\python**.
+
+After installation you might have to enable application in Assetto Corsa settings. In order to do so:
+1. Start **Assetto Corsa**.
+2. Go to **Main Menu > Options > General > UI Modules**.
+3. Make sure that **LmpGUI** is selected.
+
+If you are using **Content Manager**:
+1. Start **Content Manager**.
+2. Go to **Settings > Assetto Corsa > APPS**.
+3. Make sure **Enable Python apps** option is enabled.
+4. Make sure **Lmp GUI** is selected in the **Activated Apps** section.
+
+To enable **LMP GUI** in game:
+1. Start **Assetto Corsa**.
+2. Start a new session.
+3. Hover over the right edge of the screen.
+4. On the list find and select **LmpGUI**.
+
 ## Download
 
-[LMP GUI | RaceDepartment.com](https://www.racedepartment.com/downloads/lmp-gui.37159/)
+**[Download latest version from RaceDepartment.com](https://www.racedepartment.com/downloads/lmp-gui.37159/)**
 
 ## Features
 
@@ -22,7 +49,7 @@
 - current gear
 - fuel status
 - estimated laps left with given amount of fuel
-- customizable size
+- customizable size (click once to show/hide scale spinner)
 
 ## Credits
 
@@ -32,7 +59,7 @@ Special thanks to **Jakub Ciecierski** ([Jakub's Youtube channel](https://www.yo
 
 ## Contact
 
-Damian Choptiany - damian.choptiany@gmail.com
+**Damian Choptiany - damian.choptiany@gmail.com**
 
 ## Support
 
@@ -40,8 +67,8 @@ Application is completely **FREE**.
 
 However, if you enjoy using it and would like to support me - you can donate using [PayPal](https://www.paypal.com/paypalme/DamianChoptiany).
 
-Thank you very much!
+**Thank you very much!**
 
 ## License
 
-Distributed under the **MIT License**. See LICENSE for more information.
+Distributed under the **MIT License**. See **LICENSE** for more information.
