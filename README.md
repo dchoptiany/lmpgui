@@ -6,7 +6,7 @@
 
 ## Download
 
-Coming soon...
+[LMP GUI | RaceDepartment.com](https://www.racedepartment.com/downloads/lmp-gui.37159/)
 
 ## Features
 
