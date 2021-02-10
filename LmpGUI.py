@@ -146,7 +146,7 @@ def drawRPMLights():
 def drawFlag():
 	global scale, flagType, timerFlag, texture_checkeredFlag
 
-	if flagType == 0:
+	if flagType == 0: #no flag
 		return
 
 	if flagType < 5 and timerFlag < 1:
@@ -161,11 +161,11 @@ def drawFlag():
 
 		ac.glQuad(-20 * scale, 0, 20 * scale, 383 * scale)
 		ac.glQuad(503 * scale, 0, 20 * scale, 383 * scale)
-	elif flagType == 5:
+	elif flagType == 5: #checkered flag
 		ac.glColor4f(1, 1, 1, 1)
 		ac.glQuadTextured(-20 * scale, 0, 20 * scale, 383 * scale, texture_checkeredFlag)
 		ac.glQuadTextured(503 * scale, 0, 20 * scale, 383 * scale, texture_checkeredFlag)
-	elif flagType == 6:
+	elif flagType == 6: #penalty flag
 		if timerFlag < 1:
 			ac.glColor4f(0, 0, 0, 1)
 			ac.glQuad(-20 * scale, 0, 20 * scale, 383 * scale)
