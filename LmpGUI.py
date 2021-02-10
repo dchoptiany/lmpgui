@@ -65,6 +65,8 @@ spinnerVisible = 0
 
 scale = 1
 
+indicatorsCoordinates = [(), (), (), ()]
+
 lastLapCount = -1
 lapCount = 0
 lapsNotInPitCount = 0
@@ -175,10 +177,41 @@ def drawFlag():
 			ac.glColor4f(0, 0, 0, 1)
 			ac.glQuad(503 * scale, 0, 20 * scale, 383 * scale)
 
+def drawTyresIndicators():
+	global scale, indicatorsCoordinates
+
+	wheelSlip = info.physics.wheelSlip
+
+	for wheelIndex in range(4):
+		x, y = indicatorsCoordinates[wheelIndex]
+
+		if wheelSlip[wheelIndex] < 1:
+			continue
+		elif wheelSlip[wheelIndex] < 20: #tyre spin
+			if wheelSlip[wheelIndex] < 2:
+				numberOfLights = 1
+			elif wheelSlip[wheelIndex] < 3:
+				numberOfLights = 2
+			else:
+				numberOfLights = 3
+
+			ac.glColor4f(0, 0, 1, 1)
+
+			if wheelIndex % 2 == 0: #left wheels
+				for n in range(numberOfLights):
+					ac.glQuad(x + n * 75 * scale, y, 75 * scale, 15 * scale)
+			else: #right wheels
+				for n in range(numberOfLights):
+					ac.glQuad(503 * scale - (n + 1) * 75 * scale, y, 75 * scale, 15 * scale)
+
+		else: #tyre lock
+			ac.glColor4f(1, 0, 0, 1)
+			ac.glQuad(x, y, 225 * scale, 15 * scale)
+
 def updateScale():
 	global appWindow, label_laptime, label_delta, label_speed, label_gear, label_fuel, label_tc, label_abs
 	global label_brakeBias, label_ERScurrent, label_deploy, label_estimatedLaps
-	global spinner_scale, scale, button_spinnerVisible
+	global spinner_scale, scale, button_spinnerVisible, indicatorsCoordinates
 
 	ac.setSize(appWindow, 503 * scale, 383 * scale)
 
@@ -218,6 +251,8 @@ def updateScale():
 	ac.setPosition(spinner_scale, 0, 383 * scale)
 
 	ac.setSize(button_spinnerVisible, 503 * scale, 383 * scale)
+
+	indicatorsCoordinates = [(0, -15 * scale), (278 * scale, -15 * scale), (0, 383 * scale), (278 * scale, 383 * scale)]
 
 def acMain(ac_version):
 	global appWindow, label_laptime, label_delta, label_speed, label_gear, label_fuel, label_tc, label_abs
@@ -324,6 +359,7 @@ def onValueChange(deltaT):
 def onFormRender(deltaT):
 	drawRPMLights()
 	drawFlag()
+	drawTyresIndicators()
 
 def acUpdate(deltaT):
 	global label_laptime, label_delta, label_speed, label_gear, label_fuel, label_tc, label_abs, label_brakeBias, label_ERScurrent, label_deploy, label_estimatedLaps
