@@ -40,6 +40,7 @@ To enable **LMP GUI** in game:
 - tachometer
 - speedometer
 - flags indicator
+- tyres slip and lock indicators
 - current laptime
 - current lap delta
 - ERS/KERS charge and deploy
