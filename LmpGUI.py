@@ -25,6 +25,7 @@ import ac
 import acsys
 import platform
 import os
+import configparser
 
 if platform.architecture()[0] == "64bit":
 	sysdir = os.path.dirname(__file__)+'/stdlib64'
@@ -35,6 +36,10 @@ sys.path.insert(0, sysdir)
 os.environ['PATH'] = os.environ['PATH'] + ";."
 
 from lmpgui_lib.sim_info import info
+
+configPath = "apps/python/LmpGUI/settings.ini"
+config = configparser.ConfigParser()
+config.read(configPath)
 
 appWindow = 0
 label_laptime = 0
@@ -64,7 +69,7 @@ button_spinnerVisible = 0
 spinnerVisible = 0
 
 scale = 1
-indicatorsON = 1
+indicatorsON = True
 
 indicatorsCoordinates = [(), (), (), ()]
 
@@ -81,25 +86,19 @@ timer10perSecond = 0
 timer1perSecond = 0
 
 def loadSettings():
-	global scale, indicatorsON
+	global config, scale, indicatorsON
 
-	try:
-		with open("apps/python/LmpGUI/settings.txt", "r") as f:
-			scale = float(f.readline())
-			indicatorsON = int(f.readline())
-	except:
-		ac.console("Could not open settings.txt. Scale has been set to 1. Wheels' lock/spin indicators will be turned on.")
+	scale = config.getfloat("LMPGUI", "scale")
+	indicatorsON = config.getboolean("LMPGUI", "indicatorsON")
 
 def saveSettings():
-	global scale, indicatorsON
+	global config, scale, indicatorsON
 
-	try:
-		with open("apps/python/LmpGUI/settings.txt", "w") as f:
-			f.write(str(scale))
-			f.write("\n")
-			f.write(str(indicatorsON))
-	except:
-		ac.console("Could not save settings.")
+	config.set("LMPGUI", "scale", str(scale))
+	config.set("LMPGUI", "indicatorsON", str(indicatorsON))
+
+	with open(configPath, "w") as configFile:
+	    config.write(configFile)
 
 def calculateEstimatedLaps():
 	global totalFuelBurnt, fuelAmountStart, fuelAmount, lapsNotInPitCount
