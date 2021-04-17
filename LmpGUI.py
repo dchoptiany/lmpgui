@@ -132,6 +132,11 @@ def formatGear(gear):
 	else:
 		return str(gear - 1)
 
+def formatSwitchFromBool(switchState):
+	if switchState:
+		return "ON"
+	return "OFF"
+
 def drawRPMLights():
 	global scale, maxRPM
 
@@ -338,7 +343,7 @@ def acMain(ac_version):
 	spinner_scale = ac.addSpinner(appWindow, "")
 	ac.setRange(spinner_scale, 10, 250)
 	ac.setStep(spinner_scale, 10)
-	ac.addOnValueChangeListener(spinner_scale, onValueChange)
+	ac.addOnValueChangeListener(spinner_scale, onSpinnerScaleValueChanged)
 	ac.setVisible(spinner_scale, 0)
 
 	button_settingsVisible = ac.addButton(appWindow, "")
@@ -347,7 +352,7 @@ def acMain(ac_version):
 	ac.addOnClickedListener(button_settingsVisible, onSettingsVisibleButtonClicked)
 	ac.drawBorder(button_settingsVisible, 0)
 
-	button_indicators = ac.addButton(appWindow, "Wheel indicators: {}".format(str(indicatorsON)))
+	button_indicators = ac.addButton(appWindow, "Wheel indicators: {}".format(formatSwitchFromBool(indicatorsON)))
 	ac.addOnClickedListener(button_indicators, onIndicatorsButtonClicked)
 	ac.setVisible(button_indicators, 0)
 
@@ -371,10 +376,10 @@ def onSettingsVisibleButtonClicked(*args):
 def onIndicatorsButtonClicked(*args):
 	global button_indicators, indicatorsON
 	indicatorsON = not indicatorsON
-	ac.setText(button_indicators, "Wheel indicators: {}".format(str(indicatorsON)))
+	ac.setText(button_indicators, "Wheel indicators: {}".format(formatSwitchFromBool(indicatorsON)))
 
-def onValueChange(deltaT):
-	global spinner_scale, scale
+def onSpinnerScaleValueChanged(*args):
+	global scale
 	scale = ac.getValue(spinner_scale) / 100
 	updateScale()
 
@@ -434,15 +439,8 @@ def acUpdate(deltaT):
 		absValue = info.physics.abs
 		brakeBias = info.physics.brakeBias * 100
 
-		if tcValue:
-			ac.setText(label_tc, "ON")
-		else:
-			ac.setText(label_tc, "OFF")
-		
-		if absValue:
-			ac.setText(label_abs, "ON")
-		else:
-			ac.setText(label_abs, "OFF")
+		ac.setText(label_tc, formatSwitchFromBool(tcValue))
+		ac.setText(label_abs, formatSwitchFromBool(absValue))
 
 		flagType = info.graphics.flag
 
