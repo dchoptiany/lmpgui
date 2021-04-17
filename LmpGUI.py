@@ -64,9 +64,10 @@ maxRPM = 0
 hasERSorKERS = 0
 
 spinner_scale = 0
-button_spinnerVisible = 0
+button_indicators = 0
+button_settingsVisible = 0
 
-spinnerVisible = 0
+settingsVisible = 0
 
 scale = 1
 indicatorsON = True
@@ -217,7 +218,7 @@ def drawTyresIndicators():
 def updateScale():
 	global appWindow, label_laptime, label_delta, label_speed, label_gear, label_fuel, label_tc, label_abs
 	global label_brakeBias, label_ERScurrent, label_deploy, label_estimatedLaps
-	global spinner_scale, scale, button_spinnerVisible, indicatorsCoordinates
+	global spinner_scale, scale, button_settingsVisible, button_indicators, indicatorsCoordinates
 
 	ac.setSize(appWindow, 503 * scale, 383 * scale)
 
@@ -255,15 +256,21 @@ def updateScale():
 	ac.setFontSize(label_estimatedLaps, 40 * scale)
 
 	ac.setPosition(spinner_scale, 0, 383 * scale)
+	ac.setFontSize(spinner_scale, 20 * scale)
+	ac.setSize(spinner_scale, 250 * scale, 40 * scale)
 
-	ac.setSize(button_spinnerVisible, 503 * scale, 383 * scale)
+	ac.setPosition(button_indicators, 253 * scale, 383 * scale)
+	ac.setFontSize(button_indicators, 20 * scale)
+	ac.setSize(button_indicators, 250 * scale, 40 * scale)
+
+	ac.setSize(button_settingsVisible, 503 * scale, 383 * scale)
 
 	indicatorsCoordinates = [(0, -15 * scale), (278 * scale, -15 * scale), (0, 383 * scale), (278 * scale, 383 * scale)]
 
 def acMain(ac_version):
 	global appWindow, label_laptime, label_delta, label_speed, label_gear, label_fuel, label_tc, label_abs
 	global label_brakeBias, label_ERScurrent, label_deploy, label_estimatedLaps, texture_checkeredFlag
-	global spinner_scale, scale, button_spinnerVisible, spinnerVisible
+	global spinner_scale, scale, button_settingsVisible, button_indicators, settingsVisible
 
 	ac.initFont(0, "Ubuntu", 0, 1)
 
@@ -335,11 +342,15 @@ def acMain(ac_version):
 	ac.addOnValueChangeListener(spinner_scale, onValueChange)
 	ac.setVisible(spinner_scale, 0)
 
-	button_spinnerVisible = ac.addButton(appWindow, "")
-	ac.setPosition(button_spinnerVisible, 0, 0)
-	ac.setBackgroundOpacity(button_spinnerVisible, 0)
-	ac.addOnClickedListener(button_spinnerVisible, onClicked)
-	ac.drawBorder(button_spinnerVisible, 0)
+	button_settingsVisible = ac.addButton(appWindow, "")
+	ac.setPosition(button_settingsVisible, 0, 0)
+	ac.setBackgroundOpacity(button_settingsVisible, 0)
+	ac.addOnClickedListener(button_settingsVisible, onSettingsVisibleButtonClicked)
+	ac.drawBorder(button_settingsVisible, 0)
+
+	button_indicators = ac.addButton(appWindow, "Wheel indicators: {}".format(str(indicatorsON)))
+	ac.addOnClickedListener(button_indicators, onIndicatorsButtonClicked)
+	ac.setVisible(button_indicators, 0)
 
 	loadSettings()
 	ac.setValue(spinner_scale, scale * 100)
@@ -352,10 +363,16 @@ def acMain(ac_version):
 
 	return "LMP GUI"
 
-def onClicked(*args):
-	global spinner_scale, spinnerVisible
-	spinnerVisible = not spinnerVisible
-	ac.setVisible(spinner_scale, spinnerVisible)
+def onSettingsVisibleButtonClicked(*args):
+	global spinner_scale, button_indicators, settingsVisible
+	settingsVisible = not settingsVisible
+	ac.setVisible(spinner_scale, settingsVisible)
+	ac.setVisible(button_indicators, settingsVisible)
+
+def onIndicatorsButtonClicked(*args):
+	global button_indicators, indicatorsON
+	indicatorsON = not indicatorsON
+	ac.setText(button_indicators, "Wheel indicators: {}".format(str(indicatorsON)))
 
 def onValueChange(deltaT):
 	global spinner_scale, scale
