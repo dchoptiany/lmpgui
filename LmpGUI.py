@@ -70,6 +70,7 @@ button_settingsVisible = 0
 settingsVisible = 0
 
 scale = 1
+scaleUpdate = False
 indicatorsON = True
 
 indicatorsCoordinates = [(), (), (), ()]
@@ -221,7 +222,14 @@ def drawTyresIndicators():
 def updateScale():
 	global appWindow, label_laptime, label_delta, label_speed, label_gear, label_fuel, label_tc, label_abs
 	global label_brakeBias, label_ERScurrent, label_deploy, label_estimatedLaps
-	global spinner_scale, scale, button_settingsVisible, button_indicators, indicatorsCoordinates
+	global spinner_scale, scale, scaleUpdate, button_settingsVisible, button_indicators, indicatorsCoordinates
+
+	if not scaleUpdate:
+		return
+
+	scaleUpdate = False
+
+	ac.console("update start")
 
 	ac.setSize(appWindow, 503 * scale, 383 * scale)
 	
@@ -269,6 +277,8 @@ def updateScale():
 	ac.setSize(button_settingsVisible, 503 * scale, 383 * scale)
 
 	indicatorsCoordinates = [(0, -15 * scale), (278 * scale, -15 * scale), (0, 383 * scale), (278 * scale, 383 * scale)]
+
+	ac.console("update end")
 
 def acMain(ac_version):
 	global appWindow, label_laptime, label_delta, label_speed, label_gear, label_fuel, label_tc, label_abs
@@ -359,8 +369,6 @@ def acMain(ac_version):
 
 	texture_checkeredFlag = ac.newTexture("apps/python/LmpGUI/images/checkeredFlag.png")
 
-	updateScale()
-
 	ac.addRenderCallback(appWindow, onFormRender)
 
 	return "LMP GUI"
@@ -377,14 +385,15 @@ def onIndicatorsButtonClicked(*args):
 	ac.setText(button_indicators, "Wheel indicators: {}".format(formatSwitchFromBool(indicatorsON)))
 
 def onSpinnerScaleValueChanged(*args):
-	global scale
+	global scale, scaleUpdate
 	scale = ac.getValue(spinner_scale) / 100
-	updateScale()
+	scaleUpdate = True
 
 def onFormRender(deltaT):
 	drawRPMLights()
 	drawFlag()
 	drawTyresIndicators()
+	updateScale()
 
 def acUpdate(deltaT):
 	global label_laptime, label_delta, label_speed, label_gear, label_fuel, label_tc, label_abs, label_brakeBias, label_ERScurrent, label_deploy, label_estimatedLaps
