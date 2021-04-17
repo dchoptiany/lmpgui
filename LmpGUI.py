@@ -133,9 +133,7 @@ def formatGear(gear):
 		return str(gear - 1)
 
 def formatSwitchFromBool(switchState):
-	if switchState:
-		return "ON"
-	return "OFF"
+	return "ON" if switchState else "OFF"
 
 def drawRPMLights():
 	global scale, maxRPM
@@ -226,7 +224,7 @@ def updateScale():
 	global spinner_scale, scale, button_settingsVisible, button_indicators, indicatorsCoordinates
 
 	ac.setSize(appWindow, 503 * scale, 383 * scale)
-
+	
 	ac.setPosition(label_laptime, 239 * scale, 86 * scale)
 	ac.setFontSize(label_laptime, 40 * scale)
 
