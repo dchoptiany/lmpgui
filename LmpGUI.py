@@ -64,6 +64,7 @@ button_spinnerVisible = 0
 spinnerVisible = 0
 
 scale = 1
+indicatorsON = 1
 
 indicatorsCoordinates = [(), (), (), ()]
 
@@ -79,23 +80,26 @@ timer60perSecond = 0
 timer10perSecond = 0
 timer1perSecond = 0
 
-def loadScale():
-	global scale
+def loadSettings():
+	global scale, indicatorsON
 
 	try:
-		with open("apps/python/LmpGUI/scale.txt", "r") as f:
+		with open("apps/python/LmpGUI/settings.txt", "r") as f:
 			scale = float(f.readline())
+			indicatorsON = int(f.readline())
 	except:
-		ac.console("Could not open scale.txt. Scale has been set to 1.")
+		ac.console("Could not open settings.txt. Scale has been set to 1. Wheels' lock/spin indicators will be turned on.")
 
-def saveScale():
-	global scale
+def saveSettings():
+	global scale, indicatorsON
 
 	try:
-		with open("apps/python/LmpGUI/scale.txt", "w") as f:
+		with open("apps/python/LmpGUI/settings.txt", "w") as f:
 			f.write(str(scale))
+			f.write("\n")
+			f.write(str(indicatorsON))
 	except:
-		ac.console("Could not save scale to scale.txt.")
+		ac.console("Could not save settings.")
 
 def calculateEstimatedLaps():
 	global totalFuelBurnt, fuelAmountStart, fuelAmount, lapsNotInPitCount
@@ -178,7 +182,10 @@ def drawFlag():
 			ac.glQuad(503 * scale, 0, 20 * scale, 383 * scale)
 
 def drawTyresIndicators():
-	global scale, indicatorsCoordinates
+	global scale, indicatorsCoordinates, indicatorsON
+
+	if not indicatorsON:
+		return
 
 	wheelSlip = info.physics.wheelSlip
 
@@ -335,7 +342,7 @@ def acMain(ac_version):
 	ac.addOnClickedListener(button_spinnerVisible, onClicked)
 	ac.drawBorder(button_spinnerVisible, 0)
 
-	loadScale()
+	loadSettings()
 	ac.setValue(spinner_scale, scale * 100)
 
 	texture_checkeredFlag = ac.newTexture("apps/python/LmpGUI/images/checkeredFlag.png")
@@ -459,4 +466,4 @@ def acUpdate(deltaT):
 			ac.setText(label_estimatedLaps, "{:.1f}".format(estimatedLaps))
 
 def acShutdown():
-	saveScale()
+	saveSettings()
