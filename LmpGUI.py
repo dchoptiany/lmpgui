@@ -338,7 +338,6 @@ def acMain(ac_version):
 	spinner_scale = ac.addSpinner(appWindow, "")
 	ac.setRange(spinner_scale, 10, 250)
 	ac.setStep(spinner_scale, 10)
-	ac.setValue(spinner_scale, scale)
 	ac.addOnValueChangeListener(spinner_scale, onValueChange)
 	ac.setVisible(spinner_scale, 0)
 
