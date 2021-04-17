@@ -1,6 +1,6 @@
 # LMP GUI
 
-**LMP GUI** is Python application for **Assetto Corsa** displaying all essential information for LMP drivers in one place (it works with other cars as well). My inspiration was HUD I have seen on Youtube videos of iRacing 24 Hours of Le Mans. To be honest I don't know if is it mod or default HUD, because I have never played iRacing. Not all features coincide, and both applications significantly differ, but layout is similar. As far as I know it does not work for **Assetto Corsa Competezione**, but I have not tried it.
+**LMP GUI** is Python application for **Assetto Corsa** displaying all essential information for LMP drivers in one place (it works with other cars as well). My inspiration was HUD I have seen on Youtube videos of iRacing 24 Hours of Le Mans. To be honest I don't know if is it mod or default HUD, because I have never played iRacing. Not all features coincide, and both applications significantly differ, but layout is similar.
 
 ![Screenshot](https://github.com/dchoptiany/lmpgui/blob/main/screenshot.jpg "Screenshot")
 
@@ -40,7 +40,7 @@ To enable **LMP GUI** in game:
 - tachometer
 - speedometer
 - flags indicator
-- tyres slip and lock indicators
+- tyres slip and lock indicators (can be enabled/disabled by user)
 - current laptime
 - current lap delta
 - ERS/KERS charge and deploy
