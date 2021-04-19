@@ -128,10 +128,9 @@ def formatTime(milliseconds):
 def formatGear(gear):
 	if gear == 0:
 		return "R"
-	elif gear == 1:
+	if gear == 1:
 		return "N"
-	else:
-		return str(gear - 1)
+	return str(gear - 1)
 
 def formatSwitchFromBool(switchState):
 	return "ON" if switchState else "OFF"
