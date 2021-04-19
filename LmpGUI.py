@@ -278,7 +278,7 @@ def updateScale():
 def acMain(ac_version):
 	global appWindow, label_laptime, label_delta, label_speed, label_gear, label_fuel, label_tc, label_abs
 	global label_brakeBias, label_ERScurrent, label_deploy, label_estimatedLaps, texture_checkeredFlag
-	global spinner_scale, scale, button_settingsVisible, button_indicators, settingsVisible
+	global spinner_scale, scale, scaleUpdate, button_settingsVisible, button_indicators, settingsVisible
 
 	ac.initFont(0, "Ubuntu", 0, 1)
 
@@ -365,6 +365,8 @@ def acMain(ac_version):
 	texture_checkeredFlag = ac.newTexture("apps/python/LmpGUI/images/checkeredFlag.png")
 
 	ac.addRenderCallback(appWindow, onFormRender)
+
+	scaleUpdate = True
 
 	return "LMP GUI"
 
