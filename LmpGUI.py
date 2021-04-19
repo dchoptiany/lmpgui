@@ -123,7 +123,7 @@ def formatTime(milliseconds):
 	minutes = int(seconds / 60)
 	seconds -= minutes * 60
 
-	return str(minutes) + ":" + "{:02d}".format(seconds) + ":" + "{:03d}".format(milliseconds)
+	return "{}:{:02d}:{:03d}".format(minutes, seconds, milliseconds)
 
 def formatGear(gear):
 	if gear == 0:
