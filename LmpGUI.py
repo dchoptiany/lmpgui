@@ -229,8 +229,6 @@ def updateScale():
 
 	scaleUpdate = False
 
-	ac.console("update start")
-
 	ac.setSize(appWindow, 503 * scale, 383 * scale)
 	
 	ac.setPosition(label_laptime, 239 * scale, 86 * scale)
@@ -277,8 +275,6 @@ def updateScale():
 	ac.setSize(button_settingsVisible, 503 * scale, 383 * scale)
 
 	indicatorsCoordinates = [(0, -15 * scale), (278 * scale, -15 * scale), (0, 383 * scale), (278 * scale, 383 * scale)]
-
-	ac.console("update end")
 
 def acMain(ac_version):
 	global appWindow, label_laptime, label_delta, label_speed, label_gear, label_fuel, label_tc, label_abs
