@@ -8,11 +8,9 @@
 
 To install **LMP GUI** properly:
 1. Download latest version from link below.
-2. Go to **Steam\steamapps\common\assettocorsa\content\fonts**.
-3. Copy here whole content of **LMP GUI\content\fonts**.
-4. Go to **Steam\steamapps\common\assettocorsa\apps\python**.
-5. If there already is **LmpGUI** folder - delete it.
-6. Copy here whole content of **LMP GUI\apps\python**.
+2. Go to **Steam\steamapps\common\assettocorsa**.
+3. Copy here whole content of **LMP GUI** folder.
+4. If necessary, confirm overwriting existing files.
 
 After installation you might have to enable application in Assetto Corsa settings. In order to do so:
 1. Start **Assetto Corsa**.
