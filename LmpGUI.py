@@ -293,6 +293,8 @@ def acMain(ac_version):
 	global label_brakeBias, label_ERScurrent, label_deploy, label_estimatedLaps, texture_checkeredFlag
 	global spinner_scale, scale, scaleUpdate, button_settingsVisible, button_speedInMPH, button_indicators, settingsVisible
 
+	loadSettings()
+
 	ac.initFont(0, "Ubuntu", 0, 1)
 
 	appWindow = ac.newApp("LMP GUI")
@@ -376,7 +378,6 @@ def acMain(ac_version):
 	ac.addOnClickedListener(button_speedInMPH, onSpeedInMPHButtonClicked)
 	ac.setVisible(button_speedInMPH, 0)
 
-	loadSettings()
 	ac.setValue(spinner_scale, scale * 100)
 
 	texture_checkeredFlag = ac.newTexture("apps/python/LmpGUI/images/checkeredFlag.png")
