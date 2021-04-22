@@ -65,6 +65,7 @@ hasERSorKERS = 0
 
 spinner_scale = 0
 button_indicators = 0
+button_speedInMPH = 0
 button_settingsVisible = 0
 
 settingsVisible = 0
@@ -72,6 +73,7 @@ settingsVisible = 0
 scale = 1
 scaleUpdate = False
 indicatorsON = True
+speedInMPH = False
 
 indicatorsCoordinates = [(), (), (), ()]
 
@@ -88,16 +90,18 @@ timer10perSecond = 0
 timer1perSecond = 0
 
 def loadSettings():
-	global config, scale, indicatorsON
+	global config, scale, indicatorsON, speedInMPH
 
 	scale = config.getfloat("LMPGUI", "scale")
 	indicatorsON = config.getboolean("LMPGUI", "indicatorsON")
+	speedInMPH = config.getboolean("LMPGUI", "speedInMPH")
 
 def saveSettings():
 	global config, scale, indicatorsON
 
 	config.set("LMPGUI", "scale", str(scale))
 	config.set("LMPGUI", "indicatorsON", str(indicatorsON))
+	config.set("LMPGUI", "speedInMPH", str(speedInMPH))
 
 	with open(configPath, "w") as configFile:
 	    config.write(configFile)
@@ -134,6 +138,11 @@ def formatGear(gear):
 
 def formatSwitchFromBool(switchState):
 	return "ON" if switchState else "OFF"
+
+def getSpeed():
+	global speedInMPH
+
+	return ac.getCarState(0, acsys.CS.SpeedMPH) if speedInMPH else ac.getCarState(0, acsys.CS.SpeedKMH)
 
 def drawRPMLights():
 	global scale, maxRPM
@@ -221,7 +230,7 @@ def drawTyresIndicators():
 def updateScale():
 	global appWindow, label_laptime, label_delta, label_speed, label_gear, label_fuel, label_tc, label_abs
 	global label_brakeBias, label_ERScurrent, label_deploy, label_estimatedLaps
-	global spinner_scale, scale, scaleUpdate, button_settingsVisible, button_indicators, indicatorsCoordinates
+	global spinner_scale, scale, scaleUpdate, button_settingsVisible, button_speedInMPH, button_indicators, indicatorsCoordinates
 
 	if not scaleUpdate:
 		return
@@ -265,11 +274,15 @@ def updateScale():
 
 	ac.setPosition(spinner_scale, 0, 383 * scale)
 	ac.setFontSize(spinner_scale, 20 * scale)
-	ac.setSize(spinner_scale, 250 * scale, 40 * scale)
+	ac.setSize(spinner_scale, 201 * scale, 40 * scale)
 
-	ac.setPosition(button_indicators, 253 * scale, 383 * scale)
+	ac.setPosition(button_indicators, 302 * scale, 383 * scale)
 	ac.setFontSize(button_indicators, 20 * scale)
-	ac.setSize(button_indicators, 250 * scale, 40 * scale)
+	ac.setSize(button_indicators, 201 * scale, 40 * scale)
+
+	ac.setPosition(button_speedInMPH, 201 * scale, 383 * scale)
+	ac.setFontSize(button_speedInMPH, 20 * scale)
+	ac.setSize(button_speedInMPH, 101 * scale, 40 * scale)
 
 	ac.setSize(button_settingsVisible, 503 * scale, 383 * scale)
 
@@ -278,7 +291,7 @@ def updateScale():
 def acMain(ac_version):
 	global appWindow, label_laptime, label_delta, label_speed, label_gear, label_fuel, label_tc, label_abs
 	global label_brakeBias, label_ERScurrent, label_deploy, label_estimatedLaps, texture_checkeredFlag
-	global spinner_scale, scale, scaleUpdate, button_settingsVisible, button_indicators, settingsVisible
+	global spinner_scale, scale, scaleUpdate, button_settingsVisible, button_speedInMPH, button_indicators, settingsVisible
 
 	ac.initFont(0, "Ubuntu", 0, 1)
 
@@ -359,6 +372,10 @@ def acMain(ac_version):
 	ac.addOnClickedListener(button_indicators, onIndicatorsButtonClicked)
 	ac.setVisible(button_indicators, 0)
 
+	button_speedInMPH = ac.addButton(appWindow, "MPH: {}".format(formatSwitchFromBool(speedInMPH)))
+	ac.addOnClickedListener(button_speedInMPH, onSpeedInMPHButtonClicked)
+	ac.setVisible(button_speedInMPH, 0)
+
 	loadSettings()
 	ac.setValue(spinner_scale, scale * 100)
 
@@ -375,6 +392,7 @@ def onSettingsVisibleButtonClicked(*args):
 	settingsVisible = not settingsVisible
 	ac.setVisible(spinner_scale, settingsVisible)
 	ac.setVisible(button_indicators, settingsVisible)
+	ac.setVisible(button_speedInMPH, settingsVisible)
 
 def onIndicatorsButtonClicked(*args):
 	global button_indicators, indicatorsON
@@ -385,6 +403,11 @@ def onSpinnerScaleValueChanged(*args):
 	global scale, scaleUpdate
 	scale = ac.getValue(spinner_scale) / 100
 	scaleUpdate = True
+
+def onSpeedInMPHButtonClicked(*args):
+	global button_speedInMPH, speedInMPH
+	speedInMPH = not speedInMPH
+	ac.setText(button_speedInMPH, "MPH: {}".format(formatSwitchFromBool(speedInMPH)))
 
 def onFormRender(deltaT):
 	drawRPMLights()
@@ -408,7 +431,7 @@ def acUpdate(deltaT):
 		lapTime = ac.getCarState(0, acsys.CS.LapTime)
 		lapCount = ac.getCarState(0, acsys.CS.LapCount)
 		delta = ac.getCarState(0, acsys.CS.PerformanceMeter)
-		speed = ac.getCarState(0, acsys.CS.SpeedKMH)
+		speed = getSpeed()
 		gear = ac.getCarState(0, acsys.CS.Gear)
 		fuelAmount = info.physics.fuel
 
