@@ -2,6 +2,8 @@
 
 **LMP GUI** is Python application for **Assetto Corsa** displaying all essential information for LMP drivers in one place (it works with other cars as well). My inspiration was HUD I have seen on Youtube videos of iRacing 24 Hours of Le Mans. To be honest I don't know if is it mod or default HUD, because I have never played iRacing. Not all features coincide, and both applications significantly differ, but layout is similar.
 
+**Important note:** You can turn on app settings by clicking on it once. To turn them off just click it once again. Settings allow you to change size, speed unit and turn on/off wheels' slip/lock indicators.
+
 ![Screenshot](https://github.com/dchoptiany/lmpgui/blob/main/screenshot.jpg "Screenshot")
 
 ## Installation
@@ -49,6 +51,7 @@ To enable **LMP GUI** in game:
 - fuel status
 - estimated laps left with given amount of fuel
 - customizable size (click once to show/hide scale spinner)
+- speed unit switch
 
 ## Credits
 
