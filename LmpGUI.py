@@ -118,7 +118,8 @@ def calculateEstimatedLaps():
 def calculateDeploy():
 	currentKERS = info.physics.kersCurrentKJ * 1000
 	maxKERS = ac.getCarState(0, acsys.CS.ERSMaxJ)
-	return  currentKERS * 100 / maxKERS
+
+	return  str(currentKERS * 100 / maxKERS) if maxKERS != 0 else "-"
 
 def formatTime(milliseconds):
 	seconds = int(milliseconds / 1000)
@@ -454,7 +455,7 @@ def acUpdate(deltaT):
 			ac.setText(label_ERScurrent, str(int(ERSValue)))
 
 			deployValue = calculateDeploy()
-			ac.setText(label_deploy, str(int(deployValue)))
+			ac.setText(label_deploy, str(deployValue))
 
 		ac.setText(label_delta, deltaString)
 		ac.setText(label_speed, str(int(speed)))
