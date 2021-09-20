@@ -111,15 +111,15 @@ def calculateEstimatedLaps():
     
 	currentLapProgress = ac.getCarState(0, acsys.CS.NormalizedSplinePosition)
 	totalDistance = lapsNotInPitCount + currentLapProgress
-	fuelPerLap = (totalFuelBurnt + (fuelAmountStart - fuelAmount)) / totalDistance
+	fuelPerLap = (totalFuelBurnt + (fuelAmountStart - fuelAmount)) / totalDistance if totalDistance != 0 else 0
 
-	return fuelAmount / fuelPerLap
+	return fuelAmount / fuelPerLap if fuelPerLap != 0 else 0
 
 def calculateDeploy():
 	currentKERS = info.physics.kersCurrentKJ * 1000
 	maxKERS = ac.getCarState(0, acsys.CS.ERSMaxJ)
 
-	return  str(currentKERS * 100 / maxKERS) if maxKERS != 0 else "-"
+	return  str(int(currentKERS * 100 / maxKERS)) if maxKERS != 0 else "-"
 
 def formatTime(milliseconds):
 	seconds = int(milliseconds / 1000)
@@ -506,6 +506,8 @@ def acUpdate(deltaT):
 
 		if lapCount > 0 and estimatedLaps > 0:
 			ac.setText(label_estimatedLaps, "{:.1f}".format(estimatedLaps))
+		else:
+			ac.setText(label_estimatedLaps, "-")
 
 def acShutdown():
 	saveSettings()
