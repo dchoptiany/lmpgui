@@ -44,6 +44,7 @@ To enable **LMP GUI** in game:
 - current laptime
 - current lap delta
 - ERS/KERS charge and deploy
+- DRS (yellow light - available, blue light - activated)
 - traction control (ON/OFF)
 - current brake bias
 - ABS (ON/OFF)

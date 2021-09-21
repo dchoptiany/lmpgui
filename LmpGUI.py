@@ -63,6 +63,9 @@ totalFuelBurnt = 0
 maxRPM = 0
 hasERSorKERS = 0
 
+drsAvailable = 0
+drsActive = 0
+
 spinner_scale = 0
 button_indicators = 0
 button_speedInMPH = 0
@@ -227,6 +230,19 @@ def drawTyresIndicators():
 		else: #tyre lock
 			ac.glColor4f(1, 0, 0, 1)
 			ac.glQuad(x, y, 225 * scale, 15 * scale)
+
+def drawDrsIndicator():
+	global scale, drsAvailable, drsActive
+
+	if not drsAvailable: #DRS is unavailable
+		return
+
+	if drsActive: #DRS is active
+		ac.glColor4f(0.1, 0.1, 1, 1)
+	else: #DRS is available
+		ac.glColor4f(0.9, 0.75, 0, 1)
+
+	ac.glQuad(0, -14 * scale, 503 * scale, 14 * scale)
 
 def updateScale():
 	global appWindow, label_laptime, label_delta, label_speed, label_gear, label_fuel, label_tc, label_abs
@@ -415,11 +431,12 @@ def onFormRender(deltaT):
 	drawRPMLights()
 	drawFlag()
 	drawTyresIndicators()
+	drawDrsIndicator()
 	updateScale()
 
 def acUpdate(deltaT):
 	global label_laptime, label_delta, label_speed, label_gear, label_fuel, label_tc, label_abs, label_brakeBias, label_ERScurrent, label_deploy, label_estimatedLaps
-	global fuelAmount, fuelAmountStart, totalFuelBurnt, maxRPM, hasERSorKERS, lapCount, lastLapCount, lapsNotInPitCount, wasInPit, flagType
+	global fuelAmount, fuelAmountStart, totalFuelBurnt, maxRPM, hasERSorKERS, lapCount, lastLapCount, lapsNotInPitCount, wasInPit, flagType, drsAvailable, drsActive
 	global timerFlag, timer60perSecond, timer10perSecond, timer1perSecond
 
 	timerFlag += deltaT
@@ -435,6 +452,8 @@ def acUpdate(deltaT):
 		delta = ac.getCarState(0, acsys.CS.PerformanceMeter)
 		speed = getSpeed()
 		gear = ac.getCarState(0, acsys.CS.Gear)
+		drsAvailable = ac.getCarState(0, acsys.CS.DrsAvailable)
+		drsActive = ac.getCarState(0, acsys.CS.DrsEnabled)
 		fuelAmount = info.physics.fuel
 
 		if(lapTime > 5000 or lapCount == 0):
