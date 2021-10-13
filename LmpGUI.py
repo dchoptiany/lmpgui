@@ -114,9 +114,16 @@ def calculateEstimatedLaps():
     
 	currentLapProgress = ac.getCarState(0, acsys.CS.NormalizedSplinePosition)
 	totalDistance = lapsNotInPitCount + currentLapProgress
-	fuelPerLap = (totalFuelBurnt + (fuelAmountStart - fuelAmount)) / totalDistance if totalDistance != 0 else 0
 
-	return fuelAmount / fuelPerLap if fuelPerLap != 0 else 0
+	if totalDistance == 0:
+		return 0
+
+	fuelPerLap = (totalFuelBurnt + (fuelAmountStart - fuelAmount)) / totalDistance
+
+	if fuelPerLap == 0:
+		return 0
+
+	return fuelAmount / fuelPerLap
 
 def calculateDeploy():
 	currentKERS = info.physics.kersCurrentKJ * 1000
