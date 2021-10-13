@@ -122,7 +122,7 @@ def calculateDeploy():
 	currentKERS = info.physics.kersCurrentKJ * 1000
 	maxKERS = ac.getCarState(0, acsys.CS.ERSMaxJ)
 
-	return  str(int(currentKERS * 100 / maxKERS)) if maxKERS != 0 else "-"
+	return int(currentKERS * 100 / maxKERS)
 
 def formatTime(milliseconds):
 	seconds = int(milliseconds / 1000)
