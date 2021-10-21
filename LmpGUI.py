@@ -159,6 +159,7 @@ def drawRPMLights():
 	global scale, maxRPM
 
 	numberOfLights = int(ac.getCarState(0, acsys.CS.RPM) * 12 / maxRPM)
+	numberOfLights = min(numberOfLights, 12)
 
 	for i in range(numberOfLights):
 		if i < 6:
