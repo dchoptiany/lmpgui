@@ -61,6 +61,7 @@ fuelAmountStart = 0
 totalFuelBurnt = 0
 
 maxRPM = 0
+minRPMRel = 0
 hasERSorKERS = 0
 
 drsAvailable = 0
@@ -93,11 +94,12 @@ timer10perSecond = 0
 timer1perSecond = 0
 
 def loadSettings():
-	global config, scale, indicatorsON, speedInMPH
+	global config, scale, indicatorsON, speedInMPH, minRPMRel
 
 	scale = config.getfloat("LMPGUI", "scale")
 	indicatorsON = config.getboolean("LMPGUI", "indicatorsON")
 	speedInMPH = config.getboolean("LMPGUI", "speedInMPH")
+	minRPMRel = config.getfloat("LMPGUI", "minRPMRel")
 
 def saveSettings():
 	global config, scale, indicatorsON
@@ -105,6 +107,7 @@ def saveSettings():
 	config.set("LMPGUI", "scale", str(scale))
 	config.set("LMPGUI", "indicatorsON", str(indicatorsON))
 	config.set("LMPGUI", "speedInMPH", str(speedInMPH))
+	config.set("LMPGUI", "minRPMRel", str(minRPMRel))
 
 	with open(configPath, "w") as configFile:
 	    config.write(configFile)
@@ -156,9 +159,11 @@ def getSpeed():
 	return ac.getCarState(0, acsys.CS.SpeedMPH) if speedInMPH else ac.getCarState(0, acsys.CS.SpeedKMH)
 
 def drawRPMLights():
-	global scale, maxRPM
+	global scale, maxRPM, minRPMRel
 
-	numberOfLights = int(ac.getCarState(0, acsys.CS.RPM) * 12 / maxRPM)
+	currentRPM = ac.getCarState(0, acsys.CS.RPM)
+	numberOfLights = round(12 * ((currentRPM / maxRPM) - minRPMRel) / (1 - minRPMRel))
+
 	numberOfLights = min(numberOfLights, 12)
 
 	for i in range(numberOfLights):
