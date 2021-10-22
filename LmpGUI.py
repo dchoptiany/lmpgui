@@ -164,8 +164,6 @@ def drawRPMLights():
 	minRPMNorm = minRPMRel / 100.0
 	currentRPM = ac.getCarState(0, acsys.CS.RPM)
 	numberOfLights = round(12 * ((currentRPM / maxRPM) - minRPMNorm) / (1 - minRPMNorm))
-	if numberOfLights < 0:
-		numberOfLights = 0
 
 	numberOfLights = min(numberOfLights, 12)
 
