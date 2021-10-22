@@ -117,15 +117,22 @@ def calculateEstimatedLaps():
     
 	currentLapProgress = ac.getCarState(0, acsys.CS.NormalizedSplinePosition)
 	totalDistance = lapsNotInPitCount + currentLapProgress
-	fuelPerLap = (totalFuelBurnt + (fuelAmountStart - fuelAmount)) / totalDistance if totalDistance != 0 else 0
 
-	return fuelAmount / fuelPerLap if fuelPerLap != 0 else 0
+	if totalDistance == 0:
+		return 0
+
+	fuelPerLap = (totalFuelBurnt + (fuelAmountStart - fuelAmount)) / totalDistance
+
+	if fuelPerLap == 0:
+		return 0
+
+	return fuelAmount / fuelPerLap
 
 def calculateDeploy():
 	currentKERS = info.physics.kersCurrentKJ * 1000
 	maxKERS = ac.getCarState(0, acsys.CS.ERSMaxJ)
 
-	return  str(int(currentKERS * 100 / maxKERS)) if maxKERS != 0 else "-"
+	return int(currentKERS * 100 / maxKERS)
 
 def formatTime(milliseconds):
 	seconds = int(milliseconds / 1000)
@@ -159,6 +166,8 @@ def drawRPMLights():
 	numberOfLights = round(12 * ((currentRPM / maxRPM) - minRPMNorm) / (1 - minRPMNorm))
 	if numberOfLights < 0:
 		numberOfLights = 0
+
+	numberOfLights = min(numberOfLights, 12)
 
 	for i in range(numberOfLights):
 		if i < 6:
