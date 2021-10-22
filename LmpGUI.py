@@ -174,7 +174,7 @@ def drawRPMLights():
 		else:
 			ac.glColor4f(1, 0, 0, 1)
 
-		ac.glQuad((15 + i * 38.5) * scale, 13 * scale, 36 * scale, 62 * scale)
+		ac.glQuad((20 + i * 38.5) * scale, 13 * scale, 36 * scale, 62 * scale)
 
 def drawFlag():
 	global scale, flagType, timerFlag, texture_checkeredFlag
