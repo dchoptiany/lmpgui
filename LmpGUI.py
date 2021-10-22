@@ -99,7 +99,7 @@ def loadSettings():
 	scale = config.getfloat("LMPGUI", "scale")
 	indicatorsON = config.getboolean("LMPGUI", "indicatorsON")
 	speedInMPH = config.getboolean("LMPGUI", "speedInMPH")
-	minRPMRel = config.getint("LMPGUI", "minRPMRel")
+	minRPMRel = config.getfloat("LMPGUI", "minRPMRel")
 
 def saveSettings():
 	global config, scale, indicatorsON
@@ -161,11 +161,8 @@ def getSpeed():
 def drawRPMLights():
 	global scale, maxRPM, minRPMRel
 
-	minRPMNorm = minRPMRel / 100.0
 	currentRPM = ac.getCarState(0, acsys.CS.RPM)
-	numberOfLights = round(12 * ((currentRPM / maxRPM) - minRPMNorm) / (1 - minRPMNorm))
-	if numberOfLights < 0:
-		numberOfLights = 0
+	numberOfLights = round(12 * ((currentRPM / maxRPM) - minRPMRel) / (1 - minRPMRel))
 
 	numberOfLights = min(numberOfLights, 12)
 
@@ -177,7 +174,7 @@ def drawRPMLights():
 		else:
 			ac.glColor4f(1, 0, 0, 1)
 
-		ac.glQuad((15 + i * 38.5) * scale, 13 * scale, 36 * scale, 62 * scale)
+		ac.glQuad((20 + i * 38.5) * scale, 13 * scale, 36 * scale, 62 * scale)
 
 def drawFlag():
 	global scale, flagType, timerFlag, texture_checkeredFlag
