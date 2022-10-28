@@ -415,6 +415,7 @@ def acMain(ac_version):
 	ac.addRenderCallback(appWindow, onFormRender)
 
 	scaleUpdate = True
+	updateScale()
 
 	return "LMP GUI"
 
