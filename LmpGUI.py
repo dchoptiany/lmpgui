@@ -96,18 +96,18 @@ timer1perSecond = 0
 def loadSettings():
 	global config, scale, indicatorsON, speedInMPH, minRPMRel
 
-	scale = config.getfloat("LMPGUI", "scale")
+	scale = config.getfloat("LMPGUI", "scale") / 100.0
 	indicatorsON = config.getboolean("LMPGUI", "indicatorsON")
 	speedInMPH = config.getboolean("LMPGUI", "speedInMPH")
-	minRPMRel = config.getfloat("LMPGUI", "minRPMRel")
+	minRPMRel = config.getfloat("LMPGUI", "minRPMRel") / 100.0
 
 def saveSettings():
 	global config, scale, indicatorsON
 
-	config.set("LMPGUI", "scale", str(scale))
+	config.set("LMPGUI", "scale", str(scale * 100.0))
 	config.set("LMPGUI", "indicatorsON", str(indicatorsON))
 	config.set("LMPGUI", "speedInMPH", str(speedInMPH))
-	config.set("LMPGUI", "minRPMRel", str(minRPMRel))
+	config.set("LMPGUI", "minRPMRel", str(minRPMRel * 100.0))
 
 	with open(configPath, "w") as configFile:
 	    config.write(configFile)
